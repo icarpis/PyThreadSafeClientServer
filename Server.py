@@ -76,8 +76,8 @@ class ServerConnection():
                 if (self.startListener and connection and self.onCon):
                     try:
                         self.onCon(client_address)
-                    except:
-                        print('Server: onCon callback has thrown an exception!')
+                    except Exception as e:
+                        print('Server: onCon callback has thrown an exception!  ', e)
                         pass
         except Exception as e:
             print (e)
@@ -156,7 +156,7 @@ class ServerConnection():
     def SendDataAll(self, data):
         try:
             self.mutex.acquire()
-            print ('Server: sending "%s"' % data)
+            #print ('Server: sending "%s"' % data)
             for connection in self.connections.values():
                 connection.sendall(data)
             return True
@@ -170,7 +170,7 @@ class ServerConnection():
         try:
             self.mutex.acquire()
             if sock in self.connections:
-                print (sock, 'Server: sending "%s"' % data)
+                #print (sock, 'Server: sending "%s"' % data)
                 self.connections[sock].sendall(data)
             return True
         except Exception as e:

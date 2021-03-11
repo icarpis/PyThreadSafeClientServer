@@ -4,7 +4,7 @@ import select
 
 class ClientConnection():
 
-    def __init__(self, ip, port, callback, silence=True, bufferSize = 16):
+    def __init__(self, ip, port, callback, silence=True, bufferSize = 1000):
         self.mutex = threading.Lock()
         self.sock = None
         self.ip = ip
@@ -36,7 +36,7 @@ class ClientConnection():
                     if (data and self.callback):
                         self.callback(self.sock.getsockname(), data)
         except Exception as e:
-            print (self.localPort, e)
+            print (self.localPort, " - Client callback has thrown an exception!  ", e)
             pass
         finally:
             if (self.callback):
