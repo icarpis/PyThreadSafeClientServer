@@ -33,8 +33,13 @@ class ClientConnection():
 
                 for sock in readable:
                     data = sock.recv(self.bufferSize)
-                    if (data and self.callback):
+                    if (not data):
+                        self.connected = False
+                    if (self.callback):
                         self.callback(self.sock.getsockname(), data)
+
+                if (not self.connected):
+                    break
         except Exception as e:
             print (self.localPort, " - Client callback has thrown an exception!  ", e)
             pass
